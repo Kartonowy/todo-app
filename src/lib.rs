@@ -6,15 +6,14 @@ pub mod todo {
         }
     }
 
-    pub fn write_to_file(tasks: Vec<String>) -> Result<(), std::io::Error>{
-        let mut data = String::from("");
+    pub fn write_to_file(tasks: Vec<String>) {
+        let mut data = String::new();
         for text in tasks {
             println!("{}", &text);
-            data.insert_str(0, &(text + "\n"));
+            data.insert_str(data.len(), &(text + "\n"));
         }
 
         let _ = fs::write("./todo.txt", data);
-        Ok(())
     }
 
     pub fn read_from_file() -> Vec<String> {
@@ -28,5 +27,10 @@ pub mod todo {
             list.push(text.to_string());
         }
         list
+    }
+    pub fn remove_from_list(index: &str) {
+       let mut list = read_from_file();
+       list.remove(index.parse().unwrap());
+       write_to_file(list);
     }
 }

@@ -1,5 +1,6 @@
 use std::env;
 use todo::todo;
+use ::todo::todo::remove_from_list;
 fn main() {
     let args: Vec<String> =   env::args().collect();
     let command = &args[1];
@@ -17,6 +18,9 @@ fn main() {
         },
         
         "complete"|"remove" => {
+            for arg in args[2..].iter() {
+                remove_from_list(arg)
+            }
         }
         _ => {}
     }
