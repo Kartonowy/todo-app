@@ -7,8 +7,8 @@ fn main() {
     let mut tasks = todo::read_from_file();
     match command.as_str() {
         "add" => {
-            for (i, arg) in args[2..].iter().enumerate() {
-                tasks.insert(i, arg.to_string());
+            for arg in args[2..].iter() {
+                tasks.push(arg.to_string())
             }
             let _ = todo::write_to_file(tasks);
         },

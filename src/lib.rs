@@ -1,29 +1,32 @@
 pub mod todo {
     use std::fs;
-    use std::collections::HashMap;
-    pub fn print_tasks(tasks: HashMap<usize, String>) {
-        for (i, task) in tasks {
+    pub fn print_tasks(tasks: Vec<String>) {
+        for (i, task) in tasks.iter().enumerate() {
             println!("{}: {}", i, task)
         }
     }
 
-    pub fn write_to_file(tasks: HashMap<usize, String>) -> Result<(), std::io::Error>{
-        let serialized_data = serde_json::to_string(&tasks).unwrap();
+    pub fn write_to_file(tasks: Vec<String>) -> Result<(), std::io::Error>{
+        let mut data = String::from("");
+        for text in tasks {
+            println!("{}", &text);
+            data.insert_str(0, &(text + "\n"));
+        }
 
-
-        let _ = fs::write("./todo.json", serialized_data);
+        let _ = fs::write("./todo.txt", data);
         Ok(())
     }
-    pub fn read_from_file() -> HashMap<usize, String>{
-        let binding = match fs::read_to_string("./todo.json") {
-            Ok(x) => x,
+
+    pub fn read_from_file() -> Vec<String> {
+        let stuff = match fs::read_to_string("./todo.txt") {
+            Ok(x) => x.trim().to_string(),
             Err(_) => String::new(),
         };
-        let file_contents: &str =  binding.as_ref();
-        let deserial: HashMap<usize, String> = match serde_json::from_str(file_contents) {
-            Ok(x) => x,
-            Err(_) => HashMap::new()
-        }; 
-        deserial
+        let mut list: Vec<String> = vec![];
+        println!("stuff: \n{} \nend stuff", stuff);
+        for text in stuff.split("\n") {
+            list.push(text.to_string());
+        }
+        list
     }
 }
