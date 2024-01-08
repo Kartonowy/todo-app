@@ -1,10 +1,11 @@
 use std::env;
 use todo::todo;
-use ::todo::todo::remove_from_list;
 fn main() {
     let args: Vec<String> =   env::args().collect();
+    if args.len() < 2 {
+        println!("Todo v. 0.1.0 \ncommands: \nadd, list, remove ");
+    }
     let command = &args[1];
-    println!("Starting up!");
     let mut tasks = todo::read_from_file();
     match command.as_str() {
         "add" => {
@@ -12,14 +13,17 @@ fn main() {
                 tasks.push(arg.to_string())
             }
             let _ = todo::write_to_file(tasks);
+            println!("Added tasks! \n");
         },
         "list" => {
+            println!("Here are your tasks: \n");
             todo::print_tasks(tasks);
         },
         
         "complete"|"remove" => {
-            for arg in args[2..].iter() {
-                remove_from_list(arg)
+            println!("Removed tasks");
+            for (i, arg) in args[2..].iter().enumerate() {
+                todo::remove_from_list(arg, i)
             }
         }
         _ => {}

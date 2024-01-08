@@ -9,7 +9,6 @@ pub mod todo {
     pub fn write_to_file(tasks: Vec<String>) {
         let mut data = String::new();
         for text in tasks {
-            println!("{}", &text);
             data.insert_str(data.len(), &(text + "\n"));
         }
 
@@ -22,15 +21,14 @@ pub mod todo {
             Err(_) => String::new(),
         };
         let mut list: Vec<String> = vec![];
-        println!("stuff: \n{} \nend stuff", stuff);
         for text in stuff.split("\n") {
             list.push(text.to_string());
         }
         list
     }
-    pub fn remove_from_list(index: &str) {
+    pub fn remove_from_list(index: &str, iteration: usize) {
        let mut list = read_from_file();
-       list.remove(index.parse().unwrap());
+       list.remove(index.parse::<usize>().unwrap() - iteration);
        write_to_file(list);
     }
 }
