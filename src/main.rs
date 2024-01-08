@@ -4,6 +4,7 @@ fn main() {
     let args: Vec<String> =   env::args().collect();
     if args.len() < 2 {
         println!("Todo v. 0.1.0 \ncommands: \nadd, list, remove ");
+        std::process::exit(69);
     }
     let command = &args[1];
     let mut tasks = todo::read_from_file();
