@@ -1,4 +1,5 @@
 pub mod todo {
+    use home;
     use std::fs;
     pub fn print_tasks(tasks: Vec<String>) {
         for (i, task) in tasks.iter().enumerate() {
@@ -12,11 +13,11 @@ pub mod todo {
             data.insert_str(data.len(), &(text + "\n"));
         }
 
-        let _ = fs::write("./todo.txt", data);
+        let _ = fs::write(format!("{}{}", home::home_dir().unwrap().display(), "/.config/.todo"), data);
     }
 
     pub fn read_from_file() -> Vec<String> {
-        let stuff = match fs::read_to_string("./todo.txt") {
+        let stuff = match fs::read_to_string(format!("{}{}", home::home_dir().unwrap().display(), "/.config/.todo")) {
             Ok(x) => x.trim().to_string(),
             Err(_) => String::new(),
         };

@@ -14,7 +14,7 @@ fn main() {
                 tasks.push(arg.to_string())
             }
             let _ = todo::write_to_file(tasks);
-            println!("Added tasks! \n");
+            println!("Added tasks!");
         },
         "list" => {
             println!("Here are your tasks: \n");
